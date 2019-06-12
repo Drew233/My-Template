@@ -41,7 +41,27 @@
 40
 41
 42
-43</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>#include&lt;iostream&gt;
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>#include&lt;iostream&gt;
 #include&lt;algorithm&gt;
 #include&lt;queue&gt;
 #include&lt;cstring&gt;
@@ -82,7 +102,27 @@ int main()
         {
             scanf(&quot;%s&quot;,ma[i]);
         }
-    }
+        for(int i=0;i&lt;n;i++)
+            for(int j=0;j&lt;n;j++)
+            {
+                if(ma[i][j]==&#39;S&#39;)
+                {
+                    sx=i;
+                    sy=j;
+                }
+                if(ma[i][j]==&#39;E&#39;)
+                {
+                    ex=i;
+                    ey=j;
+                }
+            }
+        bfs(sx,sy);
+        if(vis[ex][ey]==0)
+        {
+            puts(&quot;-1&quot;);
+            continue;
+        }
+        cout&lt;&lt;step[ex][ey]&lt;&lt;endl;}
 }
 </pre></div>
 </td></tr></table></article></div></div></main><footer class="md-footer"><div class="md-footer-nav"><nav class="md-footer-nav__inner md-grid"><a href="../../Graph/kruskal/" title="最小生成树" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev"><div class="md-flex__cell md-flex__cell--shrink"><i class="md-icon md-icon--arrow-back md-footer-nav__button"></i></div><div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"><span class="md-flex__ellipsis"><span class="md-footer-nav__direction">后退</span>最小生成树</span></div></a><a href="../dfs/" title="DFS" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next"><div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"><span class="md-flex__ellipsis"><span class="md-footer-nav__direction">前进</span>DFS</span></div><div class="md-flex__cell md-flex__cell--shrink"><i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i></div></a></nav></div><div class="md-footer-meta md-typeset"><div class="md-footer-meta__inner md-grid"><div class="md-footer-copyright">powered by <a href="https://www.mkdocs.org">MkDocs</a> and <a href="https://squidfunk.github.io/mkdocs-material/">Material for MkDocs</a></div><div class="md-footer-social"><link rel="stylesheet" href="../../assets/fonts/font-awesome.css"> <a href="https://github.com/Drew233" class="md-footer-social__link fa fa-github"></a> </div></div></div></footer></div><script src="../../assets/javascripts/application.b260a35d.js"></script><script src="../../assets/javascripts/lunr/lunr.stemmer.support.js"></script><script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script><script src="https://cdn.jsdelivr.net/gh/ethantw/Han@3.3.0/dist/han.min.js"></script><script src="../../_static/js/extra.js?v=10"></script><script src="https://cdnjs.loli.net/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script></body></html>
