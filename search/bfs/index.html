@@ -564,6 +564,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#bfs_1" title="BFS求树的直径" class="md-nav__link">
+    BFS求树的直径
+  </a>
+  
+</li>
+      
       
       
       
@@ -665,8 +672,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../dp/pack/" title="换零钱(背包)" class="md-nav__link">
-      换零钱(背包)
+    <a href="../../dp/pack/" title="背包" class="md-nav__link">
+      背包
     </a>
   </li>
 
@@ -733,6 +740,13 @@
         <li class="md-nav__item">
   <a href="#bfs" title="BFS" class="md-nav__link">
     BFS
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bfs_1" title="BFS求树的直径" class="md-nav__link">
+    BFS求树的直径
   </a>
   
 </li>
@@ -883,6 +897,235 @@ int main()
             continue;
         }
         cout&lt;&lt;step[ex][ey]&lt;&lt;endl;}
+}
+</pre></div>
+</td></tr></table>
+
+<h3 id="bfs_1">BFS求树的直径<a class="headerlink" href="#bfs_1" title="Permanent link">&para;</a></h3>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>//无权值
+
+#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+#include&lt;vector&gt;
+#include&lt;queue&gt;
+#include&lt;cstring&gt;
+using namespace std;
+const int maxn = 1e5+10;
+int dis[maxn],ans,vis[maxn],n,a,b;
+vector&lt;int&gt; v[maxn];
+int bfs(int x)
+{
+    memset(vis,0,sizeof(vis));
+    memset(dis,0,sizeof(dis));
+    queue&lt;int&gt; q;
+    q.push(x);
+    vis[x]=1,dis[x]=0;
+    int point;
+    while(!q.empty())
+    {
+        x=q.front();
+        q.pop();
+        if(dis[x]&gt;ans)
+        {
+            ans=dis[x];
+            point=x;
+        }
+        for(int i=0;i&lt;v[x].size();i++)
+        {
+            if(!vis[v[x][i]])
+            {
+                vis[v[x][i]]=1;
+                dis[v[x][i]]=dis[x]+1;
+                q.push(v[x][i]);
+            }
+        }
+    }
+    return point;
+}
+int main()
+{
+    cin&gt;&gt;n;
+    for(int i=1;i&lt;n;i++)
+    {
+        cin&gt;&gt;a&gt;&gt;b;
+        v[a].push_back(b);
+        v[b].push_back(a);
+    }
+    ans=0;
+    int point=bfs(1);
+    ans=0;
+    bfs(point);
+    cout&lt;&lt;ans&lt;&lt;endl;
+}
+</pre></div>
+</td></tr></table>
+
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>//有权值
+
+#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+#include&lt;cstring&gt;
+#include&lt;queue&gt;
+#include&lt;vector&gt;
+using namespace std;
+int a,b,c,ans;
+const int maxn = 1e5+10;
+int vis[maxn],dis[maxn];//dis数组储存的就是当前点能向一个确定的方向走的最大的距离。vis就是一个标记数组防止重复访问。
+vector&lt;pair&lt;int,int&gt; &gt; v[maxn]; //用来存图，可以看成是一个二维数组,因为是有权值的，所以在vector中套用了一个pair
+int bfs(int x)
+{
+    memset(vis,0,sizeof(vis));//因为要进行多次bfs，所以每次都要清空一下数组
+    memset(dis,0,sizeof(dis));
+    vis[x]=1;//已经访问过的节点标记为1
+    int point=0;//用来储存当前所能走到的最远的点
+    queue&lt;int&gt; q;//用来实现bfs的队列
+    q.push(x);
+    while(!q.empty())
+    {
+        x=q.front();
+        q.pop();
+        if(dis[x]&gt;ans)//如果当前点能走的最大的步数大于ans，ans初始为0，如果大于就更新ans和point的值
+        {
+            ans=dis[x];
+            point=x;
+        }
+        pair&lt;int,int&gt; mid;
+        for(int i=0;i&lt;v[x].size();i++)//对v[x]中的每一个元素进行bfs
+        {
+            mid=v[x][i];
+            if(!vis[mid.first])//没访问过就继续
+            {
+                vis[mid.first]=1;//标记成已经访问过的
+                dis[mid.first]=dis[x]+mid.second;//这个点的能走的最大的距离多了一个dis[x]
+                q.push(mid.first);//放进队列以进行bfs
+            }
+        }
+    }
+    return point;//把当前走到的最远的点返回
+}
+int main()
+{
+    while(cin&gt;&gt;a&gt;&gt;b&gt;&gt;c)
+    {
+        v[a].push_back(make_pair(b,c));//存图
+        v[b].push_back(make_pair(a,c));
+    }
+    ans=0;//初始化
+    int point=bfs(1);
+    ans=0;
+    bfs(point);//第二次以某一端点位起点的bfs
+    cout&lt;&lt;ans&lt;&lt;endl;
+    return 0;
 }
 </pre></div>
 </td></tr></table>
